@@ -33,6 +33,9 @@ module.exports = (api, options) => {
   env.renderFiles(api)
   vuex.renderFiles(api)
   svgIcon.renderFiles(api)
+  api.render({
+    './src/plugins/element.js': '../template/src/plugins/element.js'
+  })
 
   // 预置 xlsx 组件
   if (options.xlsx) {
