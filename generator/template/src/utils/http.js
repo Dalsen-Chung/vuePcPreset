@@ -3,20 +3,20 @@ import Qs from 'qs'
 import { Message } from 'element-ui'
 
 const myAxios = axios.create({
-  timeout: 1000 * 10,
+  timeout: 1000 * 20,
   headers: {
     'X-Requested-With': 'XMLHttpRequest'
   },
   paramsSerializer: function (params) {
-    return Qs.stringify(params)
+    return Qs.stringify(params, { allowDots: true })
   }
 })
 // 添加请求拦截器
 myAxios.interceptors.request.use(function (config) {
-  // 在发送请求之前做些什么
   return config
 }, function (error) {
   // 对请求错误做些什么
+  console.log(error)
   return Promise.reject(error)
 })
 
@@ -70,9 +70,19 @@ myAxios.interceptors.response.use(function (response) {
   return Promise.reject(error.message)
 })
 
-export function post (url, param) {
+export function post({ url, param }) {
   return new Promise((resolve, reject) => {
     myAxios.post(url, param).then(res => {
+      resolve(res.data)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+export function get({ url, param }) {
+  return new Promise((resolve, reject) => {
+    myAxios.get(url, { params: param }).then(res => {
       resolve(res.data)
     }).catch(error => {
       reject(error)
