@@ -9,9 +9,9 @@ export function readExcel(file, rowNum) {
   return new Promise((resolve, reject) => {
     const realRowNum = parseInt(rowNum) || 0
     if (!file) {
-      return reject('文件不存在')
+      return reject(new Error('文件不存在'))
     } else if (!/\.(xls|xlsx)$/.test(file.name.toLowerCase())) {
-      return reject('上传格式不正确，请上传xls或xlsx格式')
+      return reject(new Error('上传格式不正确，请上传xls或xlsx格式'))
     }
     const fileReader = new FileReader()
     fileReader.onload = ev => {
